@@ -7,9 +7,9 @@ def call(Map parameters = [:], body) {
 
     def openshiftImage = parameters.get('openshiftImage', 'openshift/origin:v1.4.1')
     def inheritFrom = parameters.get('inheritFrom', 'base')
-    podTemplate(label: label, inheritFrom: "${inheritFrom}", 
-    	containers: [containerTemplate(name: 'openshift', image: "${openshiftImage}", command: '/bin/sh -c', args: 'cat', ttyEnabled: true)] {
-            body()
-        }
+    podTemplate(label: label, inheritFrom: "${inheritFrom}",
+            containers: [containerTemplate(name: 'openshift', image: "${openshiftImage}", command: '/bin/sh -c', args: 'cat', ttyEnabled: true)]) {
+        body()
     }
 }
+
