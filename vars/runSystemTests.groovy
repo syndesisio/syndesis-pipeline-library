@@ -2,9 +2,9 @@
 
 def call(Map parameters = [:]) {
 
-    def component = parameters.get('component', defaultLabel)
+    def component = parameters.get('component')
     def version = parameters.get('version', '1.0')
-    def key = "${component}_${version}".toUpper().replace('-', '_')
+    def key = "${component}_${version}".toUpperCase().replace('-', '_')
     
     container(name: 'openshift') {
             git 'https://github.com/redhat-ipaas/ipaas-system-tests.git'
@@ -12,7 +12,7 @@ def call(Map parameters = [:]) {
             sh 'echo OPENSHIFT_OAUTH_CLIENT_ID: system:serviceaccount:$(oc project -q):ipaas-oauth-client >> parameters.yml'
             sh 'echo OPENSHIFT_OAUTH_CLIENT_SECRET: $(oc sa get-token ipaas-oauth-client) >> parameters.yml'
             sh 'echo OPENSHIFT_OAUTH_DEFAULT_SCOPES: "user:info user:check-access role:edit:$(oc project -q):!" >> parameters.yml'
-            sh "echo $component:  $version >> parameters.yml"
+            sh "echo $key:  $version >> parameters.yml"
             sh 'cat parameters.yml'
         }
 
