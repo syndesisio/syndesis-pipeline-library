@@ -4,7 +4,7 @@ def call(Map parameters = [:]) {
 
     def component = parameters.get('component')
     def version = parameters.get('version', '1.0')
-    def key = "${component}_${version}".toUpperCase().replace('-', '_')
+    def key = "${component}_VERSION".toUpperCase().replace('-', '_')
     def namespace = "systest-${version}"
     
     container(name: 'openshift') {
