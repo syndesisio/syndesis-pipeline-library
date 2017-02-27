@@ -2,7 +2,7 @@
 
 def call(Map parameters = [:], body) {
 
-    def defaultLabel = "jnlp.${env.JOB_NAME}.${env.BUILD_NUMBER}".replaceAll('-', '_').replaceAll('/', '_').replaceAll(' ', '_')
+    def defaultLabel = buildId(prefix : 'jnlp')
     def label = parameters.get('label', defaultLabel)
 
     def jnlpImage = parameters.get('jnlpImage', 'openshift/jenkins-slave-maven-centos7')

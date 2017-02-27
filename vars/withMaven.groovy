@@ -2,7 +2,7 @@
 
 def call(Map parameters = [:], body) {
 
-    def defaultLabel = "maven.${env.JOB_NAME}.${env.BUILD_NUMBER}".replaceAll('-', '_').replaceAll('/', '_').replaceAll(' ', '_')
+    def defaultLabel = buildId(prefix : 'maven')
     def label = parameters.get('label', defaultLabel)
 
     def mavenImage = parameters.get('mavenImage', 'maven:3.3.9')

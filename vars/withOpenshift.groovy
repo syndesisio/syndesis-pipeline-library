@@ -2,7 +2,7 @@
 
 def call(Map parameters = [:], body) {
 
-    def defaultLabel = "openshift.${env.JOB_NAME}.${env.BUILD_NUMBER}".replaceAll('-', '_').replaceAll('/', '_').replaceAll(' ', '_')
+    def defaultLabel = buildId(prefix : 'openshift')
     def label = parameters.get('label', defaultLabel)
 
     def openshiftImage = parameters.get('openshiftImage', 'openshift/origin:v1.4.1')
