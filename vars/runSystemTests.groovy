@@ -5,7 +5,8 @@ def call(Map parameters = [:]) {
     def component = parameters.get('component')
     def version = parameters.get('version', '1.0')
     def key = "${component}_VERSION".toUpperCase().replace('-', '_')
-    def namespace = "systest-${version}"
+    def defaultNamespace = "systest-${version}"
+    def namespace = parameters.get('namespace', defaultNamespace)
     
     container(name: 'openshift') {
             git 'https://github.com/redhat-ipaas/ipaas-system-tests.git'
@@ -18,6 +19,6 @@ def call(Map parameters = [:]) {
         }
 
         container(name: 'maven') {
-            sh 'mvn clean install -U  -Dmaster.url=$(oc whoami --show-server) -Dtemplate.parameters.file=' + pwd() + '/parameters.yml -Dnamespace.use.existing=' + namespace
+            sh 'mvn clean install -U -Dtemplate.parameters.file=' + pwd() + '/parameters.yml -Dnamespace.use.existing=' + namespace
         }
 }
