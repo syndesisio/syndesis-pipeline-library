@@ -18,6 +18,6 @@ def call(Map parameters = [:]) {
         }
 
         container(name: 'maven') {
-            sh "mvn clean install -Dtemplate.parameters.file=" + pwd() + "/parameters.yml -Dnamespace.use.existing" + namespace
+            sh "mvn clean install -U -Dtemplate.parameters.file=" + pwd() + "/parameters.yml -Dnamespace.use.existing=" + namespace
         }
 }
