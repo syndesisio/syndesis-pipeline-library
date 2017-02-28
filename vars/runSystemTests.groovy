@@ -12,17 +12,17 @@ def call(Map parameters = [:]) {
     container(name: 'openshift') {
             parametersFilePath = pwd() + "/parameters.yml"
             git 'https://github.com/redhat-ipaas/ipaas-system-tests.git'
-            sh 'echo OPENSHIFT_MASTER: $(oc whoami --show-server) > ' + parametersFilePath
-            sh 'echo ROUTE_HOSTNAME: ipaas-staging.b6ff.rh-idev.openshiftapps.com >> ' + parametersFilePath
-            sh 'echo KEYCLOAK_ROUTE_HOSTNAME: ipaas-staging-keycloak.b6ff.rh-idev.openshiftapps.com >> ' + parametersFilePath
-            sh "echo OPENSHIFT_OAUTH_CLIENT_ID: system:serviceaccount:${namespace}:ipaas-oauth-client >> " + parametersFilePath
-            sh 'echo OPENSHIFT_OAUTH_CLIENT_SECRET: $(oc sa get-token ipaas-oauth-client) >> ' + parametersFilePath
-            sh "echo OPENSHIFT_OAUTH_DEFAULT_SCOPES: \"user:info user:check-access role:edit:${namespace}:!\" >> " + parametersFilePath
-            sh "echo $key:  $version >> " + parametersFilePath
+            sh "echo OPENSHIFT_MASTER: \$(oc whoami --show-server) > ${parametersFilePath}"
+            sh "echo ROUTE_HOSTNAME: ipaas-staging.b6ff.rh-idev.openshiftapps.com >> ${parametersFilePath}"
+            sh "echo KEYCLOAK_ROUTE_HOSTNAME: ipaas-staging-keycloak.b6ff.rh-idev.openshiftapps.com >> ${parametersFilePath}"
+            sh "echo OPENSHIFT_OAUTH_CLIENT_ID: system:serviceaccount:${namespace}:ipaas-oauth-client >> ${parametersFilePath}"
+            sh "echo OPENSHIFT_OAUTH_CLIENT_SECRET: \$(oc sa get-token ipaas-oauth-client -n ${namespace}) >> ${parametersFilePath}"
+            sh "echo OPENSHIFT_OAUTH_DEFAULT_SCOPES: \"user:info user:check-access role:edit:${namespace}:!\" >> ${parametersFilePath}"
+            sh "echo $key:  $version >> ${parametersFilePath}"
         }
 
         container(name: 'maven') {
-            sh 'cat ' + parametersFilePath
-            sh 'mvn clean install -U -Dtemplate.parameters.file=' + parametersFilePath + ' -Dnamespace.use.existing=' + namespace
+            sh "cat ${parametersFilePath}"
+            sh "mvn clean install -U -Dtemplate.parameters.file=${parametersFilePath} -Dnamespace.use.existing=${namespace}"
         }
 }
