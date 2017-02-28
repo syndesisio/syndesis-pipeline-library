@@ -14,6 +14,7 @@ def call(Map parameters = [:]) {
             git 'https://github.com/redhat-ipaas/ipaas-system-tests.git'
             sh 'echo OPENSHIFT_MASTER: $(oc whoami --show-server) > ' + parametersFilePath
             sh 'echo ROUTE_HOSTNAME: ipaas-staging.b6ff.rh-idev.openshiftapps.com > ' + parametersFilePath
+            sh 'echo KEYCLOAK_ROUTE_HOSTNAME: ipaas-staging-keycloak.b6ff.rh-idev.openshiftapps.com > ' + parametersFilePath
             sh "echo OPENSHIFT_OAUTH_CLIENT_ID: system:serviceaccount:${namespace}:ipaas-oauth-client >> " + parametersFilePath
             sh 'echo OPENSHIFT_OAUTH_CLIENT_SECRET: $(oc sa get-token ipaas-oauth-client) >> ' + parametersFilePath
             sh "echo OPENSHIFT_OAUTH_DEFAULT_SCOPES: \"user:info user:check-access role:edit:${namespace}:!\" >> " + parametersFilePath
