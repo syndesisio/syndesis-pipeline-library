@@ -13,8 +13,9 @@ def call(Map parameters = [:]) {
             parametersFilePath = pwd() + "/parameters.yml"
             git 'https://github.com/redhat-ipaas/ipaas-system-tests.git'
 
-            sh "oc create -f https://raw.githubusercontent.com/redhat-ipaas/openshift-templates/master/serviceaccount-as-oauthclient-single-tenant.yml -n ${namespace}"
-
+            sh "oc update -f https://raw.githubusercontent.com/redhat-ipaas/openshift-templates/master/serviceaccount-as-oauthclient-single-tenant.yml -n ${namespace}" +
+                    " || " +
+                    "oc create -f https://raw.githubusercontent.com/redhat-ipaas/openshift-templates/master/serviceaccount-as-oauthclient-single-tenant.yml -n ${namespace}"
             sh "echo OPENSHIFT_MASTER: \$(oc whoami --show-server) > ${parametersFilePath}"
             sh "echo ROUTE_HOSTNAME: ipaas-staging.b6ff.rh-idev.openshiftapps.com >> ${parametersFilePath}"
             sh "echo KEYCLOAK_ROUTE_HOSTNAME: ipaas-staging-keycloak.b6ff.rh-idev.openshiftapps.com >> ${parametersFilePath}"
