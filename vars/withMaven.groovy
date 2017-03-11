@@ -20,7 +20,7 @@ def call(Map parameters = [:], body) {
         }
     } else {
         podTemplate(label: label, inheritFrom: "${inheritFrom}", serviceAccount: "${serviceAccount}",
-                containers: [containerTemplate(name: 'maven', image: "${mavenImage}", command: '/bin/sh -c', args: 'cat', ttyEnabled: true)]) {
+                containers: [containerTemplate(name: 'maven', image: "${mavenImage}", command: '/bin/sh -c', args: 'cat', ttyEnabled: true, envVars: [containerEnvVar(key: 'MAVEN_OPTS', value: "-Dmaven.repo.local=${workingDir}/.mvnrepository/")])]) {
             body()
         }
     }
