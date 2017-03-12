@@ -12,7 +12,6 @@ def call(Map parameters = [:]) {
     def defaultNamespace = "systest-${version}"
     def namespace = parameters.get('namespace', defaultNamespace)
 
-
     container(name: 'openshift') {
         sh """
         mkdir -p \${HOME}/bin
