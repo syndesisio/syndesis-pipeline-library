@@ -1,8 +1,14 @@
 #!/usr/bin/groovy
 
+/**
+ * Wraps teh code in a slave container.
+ * @param parameters
+ * @param body
+ * @return
+ */
 def call(Map parameters = [:], body) {
 
-    def defaultLabel = "slave.${env.JOB_NAME}.${env.BUILD_NUMBER}".replace('-', '_').replace('/', '_').replaceAll(' ', '_')
+    def defaultLabel = buildId('slave')
     def label = parameters.get('label', defaultLabel)
 
     slave(parameters) {

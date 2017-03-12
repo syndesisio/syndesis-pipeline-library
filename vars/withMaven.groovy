@@ -1,8 +1,14 @@
 #!/usr/bin/groovy
 
+/**
+ * Wraps the code in a podTemplate with the Maven container.
+ * @param parameters    Parameters to customize the Maven container.
+ * @param body          The code to wrap.
+ * @return
+ */
 def call(Map parameters = [:], body) {
 
-    def defaultLabel = buildId(prefix : 'maven')
+    def defaultLabel = buildId('maven')
     def label = parameters.get('label', defaultLabel)
 
     def mavenImage = parameters.get('mavenImage', 'maven:3.3.9')

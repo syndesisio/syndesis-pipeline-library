@@ -2,7 +2,7 @@
 
 def call(Map parameters = [:]) {
 
-    def component = parameters.get('component', defaultLabel)
+    def component = parameters.get('component', 'unknown')
     def version = parameters.get('version', '1.0')
     def namespace = parameters.get('namespace', 'default')
     def key = "${component}_VERSION".toUpper().replace('-', '_')
