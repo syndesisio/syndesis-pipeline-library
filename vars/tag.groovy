@@ -20,6 +20,6 @@ def call(Map parameters = [:]) {
 
 
     container(name: 'openshift') {
-        sh "oc tag ${targetProject}/${targetImageStream}:${targetTag} ${sourceImageStream}:${sourceTag} -n ${sourceProject}"
+        sh "oc tag ${sourceProject}/${sourceImageStream}:${sourceTag} ${targetProject}/${targetImageStream}:${targetTag} -n ${sourceProject}"
     }
 }
