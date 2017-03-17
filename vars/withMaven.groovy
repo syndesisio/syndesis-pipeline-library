@@ -10,6 +10,7 @@ def call(Map parameters = [:], body) {
 
     def defaultLabel = buildId('maven')
     def label = parameters.get('label', defaultLabel)
+    def name = parameters.get('name', 'maven')
 
     def cloud = parameters.get('cloud', 'openshift')
     def mavenImage = parameters.get('mavenImage', 'maven:3.3.9')
@@ -20,13 +21,13 @@ def call(Map parameters = [:], body) {
     def persistent = !mavenRepositoryClaim.isEmpty()
 
     if (persistent) {
-        podTemplate(cloud: "${cloud}", label: label, inheritFrom: "${inheritFrom}", serviceAccount: "${serviceAccount}",
+        podTemplate(cloud: "${cloud}", name: "${name}", label: label, inheritFrom: "${inheritFrom}", serviceAccount: "${serviceAccount}",
                 containers: [containerTemplate(name: 'maven', image: "${mavenImage}", command: '/bin/sh -c', args: 'cat', ttyEnabled: true, envVars: [containerEnvVar(key: 'MAVEN_OPTS', value: "-Duser.home=${workingDir} -Dmaven.repo.local=${workingDir}/.m2/repository/")])],
                 volumes: [persistentVolumeClaim(claimName: "${mavenRepositoryClaim}", mountPath: "/${workingDir}/.m2/repository")]) {
             body()
         }
     } else {
-        podTemplate(cloud: "${cloud}", label: label, inheritFrom: "${inheritFrom}", serviceAccount: "${serviceAccount}",
+        podTemplate(cloud: "${cloud}", name: "${name}", label: label, inheritFrom: "${inheritFrom}", serviceAccount: "${serviceAccount}",
                 containers: [containerTemplate(name: 'maven', image: "${mavenImage}", command: '/bin/sh -c', args: 'cat', ttyEnabled: true, envVars: [containerEnvVar(key: 'MAVEN_OPTS', value: "-Duser.home=${workingDir} -Dmaven.repo.local=${workingDir}/.m2/repository/")])]) {
             body()
         }
