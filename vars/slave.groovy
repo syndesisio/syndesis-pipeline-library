@@ -10,7 +10,7 @@ def call(Map parameters = [:], body) {
 
     def defaultLabel = buildId('jnlp')
     def label = parameters.get('label', defaultLabel)
-    def name = parameters.get('name', 'jnlp')
+    def name = parameters.get('name', buildId())
 
     def cloud = parameters.get('cloud', 'openshift')
     def jnlpImage = parameters.get('jnlpImage', 'openshift/jenkins-slave-maven-centos7')
