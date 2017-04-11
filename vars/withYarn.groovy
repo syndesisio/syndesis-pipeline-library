@@ -21,7 +21,14 @@ def call(Map parameters = [:], body) {
     def alwaysPullImage = yarnImage.endsWith(":latest")
 
     podTemplate(cloud: "${cloud}", name: "${name}", label: label, inheritFrom: "${inheritFrom}", serviceAccount: "${serviceAccount}",
-            containers: [containerTemplate(name: 'yarn', image: "${yarnImage}", command: '/bin/sh -c', args: 'cat', ttyEnabled: true, alwaysPullImage: alwaysPullImage)]) {
+            containers: [containerTemplate(name: 'yarn', image: "${yarnImage}", command: '/bin/sh -c', args: '/usr/local/bin/chkpasswd cat', ttyEnabled: true, alwaysPullImage: alwaysPullImage,
+                    envVars: [
+                            containerEnvVar('LD_PRELOAD', '/usr/lib64/libnss_wrapper.so'),
+                            containerEnvVar('NSS_WRAPPER_PASSWD', '/usr/local/share/passwd'),
+                            containerEnvVar('NSS_WRAPPER_GROUP', '/etc/group'),
+                    ]
+            )]) {
+
         body()
     }
 }
