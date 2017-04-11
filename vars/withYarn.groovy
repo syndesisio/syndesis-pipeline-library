@@ -18,8 +18,10 @@ def call(Map parameters = [:], body) {
     def inheritFrom = parameters.get('inheritFrom', 'base')
     def serviceAccount = parameters.get('serviceAccount', '')
 
+    def alwaysPullImage = yarnImage.endsWith(":latest")
+
     podTemplate(cloud: "${cloud}", name: "${name}", label: label, inheritFrom: "${inheritFrom}", serviceAccount: "${serviceAccount}",
-            containers: [containerTemplate(name: 'yarn', image: "${yarnImage}", command: '/bin/sh -c', args: 'cat', ttyEnabled: true)]) {
+            containers: [containerTemplate(name: 'yarn', image: "${yarnImage}", command: '/bin/sh -c', args: 'cat', ttyEnabled: true, alwaysPullImage: alwaysPullImage)]) {
         body()
     }
 }
