@@ -15,8 +15,11 @@ def call(Map parameters = [:]) {
         git 'https://github.com/redhat-ipaas/ipaas-system-tests.git'
         def mavenOptions = namespace.isEmpty() ? "" : "-Dnamespace.use.existing=${namespace}"
 
-        usingLocalBinaries {
-            sh "mvn clean install -U ${mavenOptions}"
-        }
+        //TODO: Fix usingLocalBinaries as withEnv isn't currently supported. Then use it instead of this:
+        sh """
+        mkdir -p \${HOME}/bin
+        export PATH=\${PATH}:\${HOME}/bin
+        mvn clean install -U ${mavenOptions}
+        """
     }
 }
