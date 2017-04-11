@@ -9,7 +9,7 @@ def call(Map parameters = [:]) {
 
     def namespace = parameters.get('namespace', '')
 
-    shareBinary(container: 'openshift', binary: 'oc')
+    shareBinary('openshift', 'oc')
 
     container(name: 'maven') {
         git 'https://github.com/redhat-ipaas/ipaas-system-tests.git'

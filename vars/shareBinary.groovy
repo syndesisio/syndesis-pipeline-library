@@ -2,14 +2,23 @@
 
 /**
  * Shares a binary present in a specific container with the rest of the pod, by copying it inside the workspace.
- * @param container     The container that has the binary.
+ * @param name     The container that has the binary.
  * @param binary        The binary.
  * @param workingDir    The workingDir defaults to ${HOME}
  * @return
  */
-def call(String container, String binary, String workingDir = "\${HOME}") {
+def call(String name, String binary, String workingDir = "\${HOME}") {
 
-    container(name: "${container}") {
+
+    if (name == null || name.isEmpty()) {
+        throw new IllegalArgumentException("shareBinary requires a `name` parameter!")
+    }
+
+    if (binary == null || binary.isEmpty()) {
+        throw new IllegalArgumentException("shareBinary requires a `binary` parameter!")
+    }
+
+    container(name: "${name}") {
         sh """
         mkdir -p ${workingDir}/bin
         cp \$(which ${binary}) ${workingDir}/bin/
