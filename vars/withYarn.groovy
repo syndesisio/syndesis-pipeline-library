@@ -23,9 +23,9 @@ def call(Map parameters = [:], body) {
     podTemplate(cloud: "${cloud}", name: "${name}", label: label, inheritFrom: "${inheritFrom}", serviceAccount: "${serviceAccount}",
             containers: [containerTemplate(name: 'yarn', image: "${yarnImage}", command: '/bin/sh -c', args: '/usr/local/bin/chkpasswd cat', ttyEnabled: true, alwaysPullImage: alwaysPullImage,
                     envVars: [
-                            containerEnvVar('LD_PRELOAD', '/usr/lib64/libnss_wrapper.so'),
-                            containerEnvVar('NSS_WRAPPER_PASSWD', '/usr/local/share/passwd'),
-                            containerEnvVar('NSS_WRAPPER_GROUP', '/etc/group'),
+                            containerEnvVar(key: 'LD_PRELOAD', value: '/usr/lib64/libnss_wrapper.so'),
+                            containerEnvVar(key: 'NSS_WRAPPER_PASSWD', value: '/usr/local/share/passwd'),
+                            containerEnvVar(key: 'NSS_WRAPPER_GROUP', value: '/etc/group'),
                     ]
             )]) {
 
