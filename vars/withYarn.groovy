@@ -21,7 +21,17 @@ def call(Map parameters = [:], body) {
     def alwaysPullImage = yarnImage.endsWith(":latest")
 
     podTemplate(cloud: "${cloud}", name: "${name}", label: label, inheritFrom: "${inheritFrom}", serviceAccount: "${serviceAccount}",
-            containers: [containerTemplate(name: 'yarn', image: "${yarnImage}", command: '/bin/sh -c', args: 'cat', ttyEnabled: true, alwaysPullImage: alwaysPullImage)]) {
+            containers: [
+                    containerTemplate(
+                            name: 'yarn', image: "${yarnImage}",
+                            envVars: [
+                                    containerEnvVar(key: 'LD_PRELOAD',value: 'libnss_wrapper.so'),
+                                    containerEnvVar(key: 'NSS_WRAPPER_PASSWD',value: '/tmp/passwd'),
+                                    containerEnvVar(key: 'NSS_WRAPPER_GROUP', value: '/etc/group')
+                            ],
+                            //We use chkpasswd to generate the passwd file required by git...
+                            command: '/usr/local/bin/chkpasswd', args: 'cat', ttyEnabled: true,
+                            alwaysPullImage: alwaysPullImage)]) {
         body()
     }
 }
