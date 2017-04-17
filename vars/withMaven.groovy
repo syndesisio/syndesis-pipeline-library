@@ -2,8 +2,8 @@
 
 /**
  * Wraps the code in a podTemplate with the Maven container.
- * @param parameters    Parameters to customize the Maven container.
- * @param body          The code to wrap.
+ * @param parameters Parameters to customize the Maven container.
+ * @param body The code to wrap.
  * @return
  */
 def call(Map parameters = [:], body) {
@@ -18,19 +18,25 @@ def call(Map parameters = [:], body) {
     def serviceAccount = parameters.get('serviceAccount', '')
     def workingDir = parameters.get('workingDir', '/home/jenkins')
     def mavenRepositoryClaim = parameters.get('mavenRepositoryClaim', '')
-    def persistent = !mavenRepositoryClaim.isEmpty()
+    def mavenSettingsXmlSecret = parameters.get('mavenSettingsXmlSecret', '')
 
-    if (persistent) {
-        podTemplate(cloud: "${cloud}", name: "${name}", label: label, inheritFrom: "${inheritFrom}", serviceAccount: "${serviceAccount}",
-                containers: [containerTemplate(name: 'maven', image: "${mavenImage}", command: '/bin/sh -c', args: 'cat', ttyEnabled: true, envVars: [containerEnvVar(key: 'MAVEN_OPTS', value: "-Duser.home=${workingDir} -Dmaven.repo.local=${workingDir}/.m2/repository/")])],
-                volumes: [persistentVolumeClaim(claimName: "${mavenRepositoryClaim}", mountPath: "/${workingDir}/.m2/repository")]) {
-            body()
-        }
-    } else {
-        podTemplate(cloud: "${cloud}", name: "${name}", label: label, inheritFrom: "${inheritFrom}", serviceAccount: "${serviceAccount}",
-                containers: [containerTemplate(name: 'maven', image: "${mavenImage}", command: '/bin/sh -c', args: 'cat', ttyEnabled: true, envVars: [containerEnvVar(key: 'MAVEN_OPTS', value: "-Duser.home=${workingDir} -Dmaven.repo.local=${workingDir}/.m2/repository/")])]) {
-            body()
-        }
+    def isPersistent = !mavenRepositoryClaim.isEmpty()
+    def hasSettingsXml = !mavenSettingsXmlSecret.isEmpty()
+
+    def volumes = []
+
+    if (isPersistent) {
+        volumes.add(persistentVolumeClaim(claimName: "${mavenRepositoryClaim}", mountPath: "/${workingDir}/.m2/repository"))
+    }
+
+    if (hasSettingsXml) {
+        volumes.add(secretVolume(secretName: "${mavenSettingsXmlSecret}", mountPath: "/${workingDir}/.m2/settings.xml"))
+    }
+
+    podTemplate(cloud: "${cloud}", name: "${name}", label: label, inheritFrom: "${inheritFrom}", serviceAccount: "${serviceAccount}",
+            containers: [containerTemplate(name: 'maven', image: "${mavenImage}", command: '/bin/sh -c', args: 'cat', ttyEnabled: true, envVars: [containerEnvVar(key: 'MAVEN_OPTS', value: "-Duser.home=${workingDir} -Dmaven.repo.local=${workingDir}/.m2/repository/")])],
+            volumes: volumes) {
+        body()
     }
 }
 
