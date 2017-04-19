@@ -30,7 +30,7 @@ def call(Map parameters = [:], body) {
     }
 
     if (hasSettingsXml) {
-        volumes.add(secretVolume(secretName: "${mavenSettingsXmlSecret}", mountPath: "/${workingDir}/.m2/settings.xml"))
+        volumes.add(secretVolume(secretName: "${mavenSettingsXmlSecret}", mountPath: "/${workingDir}/.m2"))
     }
 
     podTemplate(cloud: "${cloud}", name: "${name}", label: label, inheritFrom: "${inheritFrom}", serviceAccount: "${serviceAccount}",
