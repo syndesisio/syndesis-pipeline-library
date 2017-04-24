@@ -19,6 +19,7 @@ def call(Map parameters = [:], body) {
     def workingDir = parameters.get('workingDir', '/home/jenkins')
     def mavenRepositoryClaim = parameters.get('mavenRepositoryClaim', '')
     def mavenSettingsXmlSecret = parameters.get('mavenSettingsXmlSecret', '')
+    def mavenSettingsXmlMountPath = parameters.get('mavenSettingsXmlMountPath', "/${workingDir}/.m2/")
 
     def isPersistent = !mavenRepositoryClaim.isEmpty()
     def hasSettingsXml = !mavenSettingsXmlSecret.isEmpty()
@@ -30,7 +31,7 @@ def call(Map parameters = [:], body) {
     }
 
     if (hasSettingsXml) {
-        volumes.add(secretVolume(secretName: "${mavenSettingsXmlSecret}", mountPath: "/${workingDir}/.m2"))
+        volumes.add(secretVolume(secretName: "${mavenSettingsXmlSecret}", mountPath: "${mavenSettingsXmlMountPath}"))
     }
 
     podTemplate(cloud: "${cloud}", name: "${name}", label: label, inheritFrom: "${inheritFrom}", serviceAccount: "${serviceAccount}",
