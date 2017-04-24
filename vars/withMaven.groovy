@@ -28,6 +28,8 @@ def call(Map parameters = [:], body) {
 
     if (isPersistent) {
         volumes.add(persistentVolumeClaim(claimName: "${mavenRepositoryClaim}", mountPath: "/${workingDir}/.m2/repository"))
+    } else {
+        volumes.add(emptyDirVolume(mountPath: "/${workingDir}/.m2/repository"))
     }
 
     if (hasSettingsXml) {
