@@ -6,5 +6,5 @@
  * @return
  */
 def call(String prefix = '') {
-    return  "${prefix}${env.JOB_NAME}_${env.BUILD_NUMBER}".replaceAll('-', '_').replaceAll('/', '_').replaceAll(' ', '_')
+    return  "${prefix}${env.JOB_NAME}_${env.BUILD_NUMBER}".replaceAll('[^A-Za-z0-9]', '_')
 }
