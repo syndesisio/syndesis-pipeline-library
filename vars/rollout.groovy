@@ -10,7 +10,7 @@ import io.fabric8.openshift.client.OpenShiftClient
 def call(Map parameters = [:]) {
 
     def deploymentConfig = parameters.get('deploymentConfig', 'unknown')
-    def namespace = parameters.get('namespace', 'ipaas-staging')
+    def namespace = parameters.get('namespace', 'syndesis-staging')
 
     openshiftDeploy(depCfg: "${deploymentConfig}", namespace: "${namespace}")
 

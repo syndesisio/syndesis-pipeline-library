@@ -24,12 +24,12 @@
         <version>9</version>
     </parent>
 
-    <groupId>com.redhat.ippas</groupId>
-    <artifactId>ipaas-pipeline-library</artifactId>
+    <groupId>io.syndesis</groupId>
+    <artifactId>syndesis-pipeline-library</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>IPaaS Pipeline Library</name>
+    <name>Sydesis Pipeline Library</name>
 
     <organization>
         <name>Red Hat</name>
@@ -48,8 +48,8 @@
       central -->
     <developers>
         <developer>
-            <id>ipaas</id>
-            <name>IpaaS Development Team</name>
+            <id>syndesis</id>
+            <name>Sydesis Development Team</name>
             <organization>redhat</organization>
             <organizationUrl>http://redhat.com/</organizationUrl>
         </developer>
@@ -60,9 +60,9 @@
     </prerequisites>
 
     <scm>
-        <connection>scm:git:git@github.com:redhat-ipaas/ipaas-pipeline-library.git</connection>
-        <developerConnection>scm:git:git@github.com:redhat-ipaas/ipaas-pipeline-library.git</developerConnection>
-        <url>http://github.com/redhat-ipaas/ipaas-pipeline-library</url>
+        <connection>scm:git:git@github.com:syndesisio/syndesis-pipeline-library.git</connection>
+        <developerConnection>scm:git:git@github.com:syndesisio/syndesis-pipeline-library.git</developerConnection>
+        <url>http://github.com/syndesisio/syndesis-pipeline-library</url>
         <tag>${project.version}</tag>
     </scm>
 

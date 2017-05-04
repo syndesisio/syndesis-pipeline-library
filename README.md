@@ -68,7 +68,7 @@ Creates the actual pod based on the parent `podTemplate`.
  
 ### test
 
-Runs the ipaas system tests suite.
+Runs the syndesis system tests suite.
 
 Can accept the following named arguments:
 

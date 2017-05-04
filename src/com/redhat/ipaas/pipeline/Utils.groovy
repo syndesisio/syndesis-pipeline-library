@@ -1,3 +1,3 @@
 #!/usr/bin/groovy
-package com.redhat.ipaas.pipeline
+package com.redhat.syndesis.pipeline
 
