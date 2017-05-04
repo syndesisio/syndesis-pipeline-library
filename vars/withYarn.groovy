@@ -14,7 +14,7 @@ def call(Map parameters = [:], body) {
     def name = parameters.get('name', 'yarn')
 
     def cloud = parameters.get('cloud', 'openshift')
-    def yarnImage = parameters.get('yarnImage', 'rhipaas/karma-xvfb:latest')
+    def yarnImage = parameters.get('yarnImage', 'syndesis/karma-xvfb:latest')
     def inheritFrom = parameters.get('inheritFrom', 'base')
     def serviceAccount = parameters.get('serviceAccount', '')
 

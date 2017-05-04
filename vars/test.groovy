@@ -12,7 +12,7 @@ def call(Map parameters = [:]) {
     shareBinary('openshift', 'oc')
 
     container(name: 'maven') {
-        git 'https://github.com/redhat-ipaas/ipaas-system-tests.git'
+        git 'https://github.com/syndesisio/syndesis-system-tests.git'
         def mavenOptions = namespace.isEmpty() ? "" : "-Dnamespace.use.existing=${namespace}"
 
         //TODO: Fix usingLocalBinaries as withEnv isn't currently supported. Then use it instead of this:

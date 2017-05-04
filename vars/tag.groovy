@@ -7,8 +7,8 @@
  */
 def call(Map parameters = [:]) {
 
-    def sourceProject = parameters.get('sourceProject', 'ipaas-testing')
-    def targetProject = parameters.get('targetProject', 'ipaas-staging')
+    def sourceProject = parameters.get('sourceProject', 'syndesis-testing')
+    def targetProject = parameters.get('targetProject', 'syndesis-staging')
 
     def imageStream = parameters.get('imageStream', 'unknown')
     def sourceImageStream = parameters.get('sourceImageStream', imageStream)
