@@ -1,4 +1,4 @@
-# IPaaS Pipeline Library
+# Syndesis Pipeline Library
 
 A pipeline library based on the [Fabric8 Pipeline Library](https://github.com/fabric8io/fabric8-pipeline-library) with limited scope and slower pace.
 
@@ -68,7 +68,8 @@ Creates the actual pod based on the parent `podTemplate`.
  
 ### test
 
-Runs the syndesis system tests suite.
+
+Runs the Syndesis system tests suite.
 
 Can accept the following named arguments:
 
