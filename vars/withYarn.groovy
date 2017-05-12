@@ -27,7 +27,7 @@ def call(Map parameters = [:], body) {
     envVars.add(containerEnvVar(key: 'NSS_WRAPPER_PASSWD',value: '/tmp/passwd'))
     envVars.add(containerEnvVar(key: 'NSS_WRAPPER_GROUP', value: '/etc/group'))
 
-    podTemplate(cloud: "${cloud}", name: "${name}", namepsace: "${namespace}", label: label, inheritFrom: "${inheritFrom}", serviceAccount: "${serviceAccount}",
+    podTemplate(cloud: "${cloud}", name: "${name}", namespace: "${namespace}", label: label, inheritFrom: "${inheritFrom}", serviceAccount: "${serviceAccount}",
             containers: [
                     containerTemplate(
                             name: 'yarn', image: "${yarnImage}",

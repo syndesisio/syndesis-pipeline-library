@@ -18,7 +18,7 @@ def call(Map parameters = [:], body) {
     def namespace = parameters.get('namespace', 'syndesis-ci')
     def serviceAccount = parameters.get('serviceAccount', '')
 
-    podTemplate(cloud: "${cloud}", name: "${name}", namepsace: "${namespace}", label: label, inheritFrom: "${inheritFrom}", serviceAccount: "${serviceAccount}",
+    podTemplate(cloud: "${cloud}", name: "${name}", namespace: "${namespace}", label: label, inheritFrom: "${inheritFrom}", serviceAccount: "${serviceAccount}",
             containers: [containerTemplate(name: 'jnlp', image: "${jnlpImage}", args: '${computer.jnlpmac} ${computer.name}')]) {
         body()
     }
