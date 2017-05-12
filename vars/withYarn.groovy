@@ -15,6 +15,7 @@ def call(Map parameters = [:], body) {
 
     def cloud = parameters.get('cloud', 'openshift')
     def yarnImage = parameters.get('yarnImage', 'syndesis/karma-xvfb:latest')
+
     def envVars = parameters.get('envVars', [])
     def namespace = parameters.get('namespace', 'syndesis-ci')
     def inheritFrom = parameters.get('inheritFrom', 'base')
