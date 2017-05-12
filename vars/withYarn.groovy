@@ -16,6 +16,7 @@ def call(Map parameters = [:], body) {
     def cloud = parameters.get('cloud', 'openshift')
     def yarnImage = parameters.get('yarnImage', 'syndesis/karma-xvfb:latest')
     def envVars = parameters.get('envVars', [])
+    def namespace = parameters.get('namespace', 'syndesis-ci')
     def inheritFrom = parameters.get('inheritFrom', 'base')
     def serviceAccount = parameters.get('serviceAccount', '')
 
@@ -25,7 +26,7 @@ def call(Map parameters = [:], body) {
     envVars.add(containerEnvVar(key: 'NSS_WRAPPER_PASSWD',value: '/tmp/passwd'))
     envVars.add(containerEnvVar(key: 'NSS_WRAPPER_GROUP', value: '/etc/group'))
 
-    podTemplate(cloud: "${cloud}", name: "${name}", label: label, inheritFrom: "${inheritFrom}", serviceAccount: "${serviceAccount}",
+    podTemplate(cloud: "${cloud}", name: "${name}", namepsace: "${namespace}", label: label, inheritFrom: "${inheritFrom}", serviceAccount: "${serviceAccount}",
             containers: [
                     containerTemplate(
                             name: 'yarn', image: "${yarnImage}",

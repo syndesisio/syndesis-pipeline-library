@@ -17,9 +17,10 @@ def call(Map parameters = [:], body) {
     def openshiftImage = parameters.get('openshiftImage', 'openshift/origin:v1.5.0-rc.0')
     def envVars = parameters.get('envVars', [])
     def inheritFrom = parameters.get('inheritFrom', 'base')
+    def namespace = parameters.get('namespace', 'syndesis-ci')
     def serviceAccount = parameters.get('serviceAccount', '')
 
-    podTemplate(cloud: "${cloud}", name: "${name}", label: label, inheritFrom: "${inheritFrom}", serviceAccount: "${serviceAccount}",
+    podTemplate(cloud: "${cloud}", name: "${name}", namepsace: "${namespace}", label: label, inheritFrom: "${inheritFrom}", serviceAccount: "${serviceAccount}",
             containers: [containerTemplate(name: 'openshift', image: "${openshiftImage}", command: '/bin/sh -c', args: 'cat', ttyEnabled: true, envVars: envVars)]) {
         body()
     }

@@ -16,6 +16,7 @@ def call(Map parameters = [:], body) {
     def mavenImage = parameters.get('mavenImage', 'maven:3.3.9')
     def envVars = parameters.get('envVars', [])
     def inheritFrom = parameters.get('inheritFrom', 'base')
+    def namespace = parameters.get('namespace', 'syndesis-ci')
     def serviceAccount = parameters.get('serviceAccount', '')
     def workingDir = parameters.get('workingDir', '/home/jenkins')
     def mavenRepositoryClaim = parameters.get('mavenRepositoryClaim', '')
@@ -38,7 +39,7 @@ def call(Map parameters = [:], body) {
         volumes.add(secretVolume(secretName: "${mavenSettingsXmlSecret}", mountPath: "${mavenSettingsXmlMountPath}"))
     }
 
-    podTemplate(cloud: "${cloud}", name: "${name}", label: label, inheritFrom: "${inheritFrom}", serviceAccount: "${serviceAccount}",
+    podTemplate(cloud: "${cloud}", name: "${name}", namepsace: "${namespace}", label: label, inheritFrom: "${inheritFrom}", serviceAccount: "${serviceAccount}",
             containers: [containerTemplate(name: 'maven', image: "${mavenImage}", command: '/bin/sh -c', args: 'cat', ttyEnabled: true, envVars: envVars)],
             volumes: volumes) {
         body()
