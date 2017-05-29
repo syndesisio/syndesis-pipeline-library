@@ -22,6 +22,7 @@ def call(Map parameters = [:], body) {
     def mavenRepositoryClaim = parameters.get('mavenRepositoryClaim', '')
     def mavenSettingsXmlSecret = parameters.get('mavenSettingsXmlSecret', '')
     def mavenSettingsXmlMountPath = parameters.get('mavenSettingsXmlMountPath', "/${workingDir}/.m2")
+    def idleMinutes = parameters.get('idle', 10)
 
     def isPersistent = !mavenRepositoryClaim.isEmpty()
     def hasSettingsXml = !mavenSettingsXmlSecret.isEmpty()
@@ -40,6 +41,7 @@ def call(Map parameters = [:], body) {
     }
 
     podTemplate(cloud: "${cloud}", name: "${name}", namespace: "${namespace}", label: label, inheritFrom: "${inheritFrom}", serviceAccount: "${serviceAccount}",
+            idleMinutesStr: "${idleMinutes}",
             containers: [containerTemplate(name: 'maven', image: "${mavenImage}", command: '/bin/sh -c', args: 'cat', ttyEnabled: true, envVars: envVars)],
             volumes: volumes) {
         body()

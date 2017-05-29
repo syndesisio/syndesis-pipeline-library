@@ -19,8 +19,10 @@ def call(Map parameters = [:], body) {
     def inheritFrom = parameters.get('inheritFrom', 'base')
     def namespace = parameters.get('namespace', 'syndesis-ci')
     def serviceAccount = parameters.get('serviceAccount', '')
+    def idleMinutes = parameters.get('idle', 10)
 
     podTemplate(cloud: "${cloud}", name: "${name}", namespace: "${namespace}", label: label, inheritFrom: "${inheritFrom}", serviceAccount: "${serviceAccount}",
+            idleMinutesStr: "${idleMinutes}",
             containers: [containerTemplate(name: 'openshift', image: "${openshiftImage}", command: '/bin/sh -c', args: 'cat', ttyEnabled: true, envVars: envVars)]) {
         body()
     }

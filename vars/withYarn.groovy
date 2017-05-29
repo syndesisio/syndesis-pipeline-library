@@ -20,6 +20,7 @@ def call(Map parameters = [:], body) {
     def namespace = parameters.get('namespace', 'syndesis-ci')
     def inheritFrom = parameters.get('inheritFrom', 'base')
     def serviceAccount = parameters.get('serviceAccount', '')
+    def idleMinutes = parameters.get('idle', 10)
 
     def alwaysPullImage = yarnImage.endsWith(":latest")
 
@@ -28,6 +29,7 @@ def call(Map parameters = [:], body) {
     envVars.add(containerEnvVar(key: 'NSS_WRAPPER_GROUP', value: '/etc/group'))
 
     podTemplate(cloud: "${cloud}", name: "${name}", namespace: "${namespace}", label: label, inheritFrom: "${inheritFrom}", serviceAccount: "${serviceAccount}",
+            idleMinutesStr: "${idleMinutes}",
             containers: [
                     containerTemplate(
                             name: 'yarn', image: "${yarnImage}",
