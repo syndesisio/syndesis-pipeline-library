@@ -4,6 +4,8 @@ node {
     def mavenVersion='3.3.9'
     cube.namespace().withCloud('openshift').withPrefix('e2e').inside {
 
+        echo "Creating jenkins service account in namespace: ${KUBERNETES_NAMESPACE}"
+
         cube.environment().withCloud('openshift').withName("${KUBERNETES_NAMESPACE}")
                                     .withConfigUrl("file:${WORKSPACE}/manifests/jenkins-sa.yml")
                                     .withNamespaceDestroyEnabled(false)
