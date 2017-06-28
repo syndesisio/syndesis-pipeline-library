@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: m2-settings
+type: Opaque
+data:
+  settings.xml: |
+    <?xml version="1.0" encoding="UTF-8"?>
+    <settings xmlns="http://maven.apache.org/SETTINGS/1.1.0"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd">
+    
+      <servers>
+        <server>
+          <id>nexus-snapshots</id>
+          <username>admin</username>
+          <password>admin123</password>
+        </server>
+        <server>
+          <id>nexus-releases</id>
+          <username>admin</username>
+          <password>admin123</password>
+        </server>
+      </servers>
+    
+    
+      <mirrors>
+        <mirror>
+          <id>nexus-central</id>
+          <name>Nexus Central Mirror</name>
+          <url>http://nexua.syndesis-ci:8081/content/repositories/central/</url>
+          <mirrorOf>central</mirrorOf>
+        </mirror>
+    
+        <mirror>
+          <id>nexus-jcenter</id>
+          <name>Nexus Central Mirror</name>
+          <url>http://nexus.syndesis-ci:8081/content/repositories/jcenter/</url>
+          <mirrorOf>jcenter-releases</mirrorOf>
+        </mirror>
+      </mirrors>
+    </settings>
+    
