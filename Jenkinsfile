@@ -4,15 +4,8 @@ node {
     def mavenVersion='3.3.9'
     inNamespace(cloud:'openshift', prefix: 'e2e') {
 
-        echo "Creating jenkins service account in namespace: ${KUBERNETES_NAMESPACE}"
+	setupMaven(namespace: "${KUBERNETES_NAMESPACE}", readFromWorkspace: true)
 	
-	createEnvironment(cloud: 'openshift', name: "${KUBERNETES_NAMESPACE}",
-                                    environmentDependencies: [ "file:${WORKSPACE}/manifests/m2-pvc.yml",
-				                               "file:${WORKSPACE}/manifests/m2-settings-secret.yml",
-				                               "file:${WORKSPACE}/manifests/jenkins-sa.yml" ],
-                                    namespaceDestroyEnabled: false,
-                                    namespaceCleanupEnabled: false,
-                                    waitTimeout: 600000L)
         env = []
         env.add(containerEnvVar(key:'NAMESPACE_USE_EXISTING', value: "${KUBERNETES_NAMESPACE}"))
         env.add(containerEnvVar(key:'NAMESPACE_DESTROY_ENABLED', value: "false"))
