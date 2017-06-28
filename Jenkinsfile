@@ -30,7 +30,7 @@ node {
 
                                 stage 'System Tests'
                                 def testingNamespace = currentNamespace()
-                                test(component: 'syndesis-pipeline-library', namespace: "${KUBERNETES_NAMESPACE}", serviceAccount: 'jenkins')
+                                test(component: 'syndesis-pipeline-library', envInitEnabled: false, namespace: "${KUBERNETES_NAMESPACE}", serviceAccount: 'jenkins')
                         }
                     }
             }
