@@ -9,7 +9,7 @@
  * @param body The code to wrap.
  * @return
  */
-def call(Map parameters = [:], body) {
+def call(Map parameters = [:]) {
 
 	def defaultLabel = buildId('maven')
 	def label = parameters.get('label', defaultLabel)
@@ -20,9 +20,9 @@ def call(Map parameters = [:], body) {
 	def manifestLocation = parameters.get('manifestLocation', '')
 	def readFromWorkspace = parameters.get('readFromWorkspace', false)
 
-	if (readFromWorkspace || manifestLocation.isEmpty()) {
+	if (readFromWorkspace) {
 	  manifestLocation = "file:${WORKSPACE}/manifests"
-	} else {
+	} else if(manifestLocation.isEmpty()) {
 	  manifestLocation = 'https://raw.githubusercontent.com/syndesisio/syndesis-pipeline-library/master/manifests'
 	}
 
