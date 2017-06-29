@@ -18,9 +18,9 @@ def call(Map parameters = [:], body) {
 	def cloud = parameters.get('cloud', 'openshift')
 	def namespace = parameters.get('namespace', "${KUBERNETES_NAMESPACE}")
 	def manifestLocation = parameters.get('manifestLocation', '')
-	def readFromWorkspace = parameters.get('readManifestsFromWorkspace', false)
+	def readFromWorkspace = parameters.get('readFromWorkspace', false)
 
-	if (manifestLocation.isEmpty() && readFromWorkspace) {
+	if (readFromWorkspace || manifestLocation.isEmpty()) {
 	  manifestLocation = "file:${WORKSPACE}/manifests"
 	} else {
 	  manifestLocation = 'https://raw.githubusercontent.com/syndesisio/syndesis-pipeline-library/master/manifests'
@@ -31,7 +31,7 @@ def call(Map parameters = [:], body) {
 	createEnvironment(cloud: "${cloud}", name: "${namespace}",
 			environmentDependencies: [ "${manifestLocation}/m2-pvc.yml",
 			"${manifestLocation}/m2-settings-secret.yml",
-			"${manifestLocation}/jenkins-sa.yml" ],
+			"${manifestLocation}/jenkins-sa.yml"]  ,
 			namespaceDestroyEnabled: false,
 			namespaceCleanupEnabled: false,
 			waitTimeout: 600000L)
