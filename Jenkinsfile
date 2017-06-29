@@ -5,17 +5,10 @@ node {
     inNamespace(cloud:'openshift', prefix: 'e2e') {
 	setupMaven(namespace: "${KUBERNETES_NAMESPACE}", readFromWorkspace: true)
 	
-        env = []
-        env.add(containerEnvVar(key:'NAMESPACE_USE_EXISTING', value: "${KUBERNETES_NAMESPACE}"))
-        env.add(containerEnvVar(key:'NAMESPACE_DESTROY_ENABLED', value: "false"))
-        env.add(containerEnvVar(key:'NAMESPACE_CLEANUP_ENABLED', value: "false"))
-        env.add(containerEnvVar(key:'ENV_INIT_ENABLED', value: "false"))
-
         stage 'Building'
         slave {
             withOpenshift {
                     withMaven(mavenImage: "maven:${mavenVersion}",
-                    envVar: env,
                     serviceAccount: "builder", mavenRepositoryClaim: "m2-local-repo", mavenSettingsXmlSecret: 'm2-settings') {
                         inside {
                                 stage 'Prepare Environment'
