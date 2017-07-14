@@ -18,6 +18,7 @@ def call(Map parameters = [:]) {
 
         //TODO: Fix usingLocalBinaries as withEnv isn't currently supported. Then use it instead of this:
         sh """
+	env
         mkdir -p \${HOME}/bin
         export PATH=\${PATH}:\${HOME}/bin
         mvn clean install -U ${mavenOptions}
