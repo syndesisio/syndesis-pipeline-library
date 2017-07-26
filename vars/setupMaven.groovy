@@ -29,9 +29,9 @@ def call(Map parameters = [:]) {
 
         echo "Setting maven in namespace: ${namespace} using manifests from: ${manifestLocation}."
 	createEnvironment(cloud: "${cloud}", name: "${namespace}",
-			environmentDependencies: [ "${manifestLocation}/m2-pvc.yml",
-			"${manifestLocation}/m2-settings-secret.yml",
-			"${manifestLocation}/jenkins-sa.yml"]  ,
+			environmentDependencies: [
+					"${manifestLocation}/m2-settings-secret.yml",
+					"${manifestLocation}/jenkins-sa.yml"]  ,
 			namespaceDestroyEnabled: false,
 			namespaceCleanupEnabled: false,
 			waitTimeout: 600000L)
