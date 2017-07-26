@@ -3,13 +3,12 @@ node {
     library identifier: "syndesis-pipeline-library@${env.BRANCH_NAME}", retriever: workspaceRetriever("${WORKSPACE}")
     def mavenVersion='3.3.9'
     inNamespace(cloud:'openshift', prefix: 'e2e') {
-	setupMaven(namespace: "${KUBERNETES_NAMESPACE}", readFromWorkspace: true)
 	
         stage 'Building'
         slave {
             withOpenshift {
                     withMaven(mavenImage: "maven:${mavenVersion}",
-                    serviceAccount: "builder", mavenRepositoryClaim: "m2-local-repo", mavenSettingsXmlSecret: 'm2-settings') {
+                    serviceAccount: "builder") {
                         inside {
                                 stage 'Prepare Environment'
 				createEnvironment(cloud: 'openshift', name: "${KUBERNETES_NAMESPACE}",
