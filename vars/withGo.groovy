@@ -13,7 +13,7 @@ def call(Map parameters = [:], body) {
     def name = parameters.get('name', 'go')
 
     def cloud = parameters.get('cloud', 'openshift')
-    def goImage = parameters.get('goImage', 'golang:1.8.3')
+    def goImage = parameters.get('goImage', 'syndesis/go-18-centos7:latest')
 
     def envVars = parameters.get('envVars', [])
     def inheritFrom = parameters.get('inheritFrom', 'base')
@@ -35,10 +35,11 @@ def call(Map parameters = [:], body) {
             containerTemplate(
                 name: 'go',
                 image: "${goImage}",
-                command: '/bin/sh -c',
+                command: '/usr/local/bin/chkpasswd',
                 args: 'cat',
                 ttyEnabled: true,
-                envVars: envVars
+                envVars: envVars,
+                alwaysPullImage: alwaysPullImage
             )
         ],
     ) {
