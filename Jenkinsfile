@@ -12,7 +12,7 @@ node {
             ) {
                 inside {
                     stage 'Prepare Environment'
-				    createEnvironment(
+                    createEnvironment(
                         cloud: 'openshift', name: "${KUBERNETES_NAMESPACE}",
                         environmentSetupScriptUrl: 'https://raw.githubusercontent.com/syndesisio/syndesis-system-tests/master/src/test/resources/setup.sh',
                         environmentTeardownScriptUrl: 'https://raw.githubusercontent.com/syndesisio/syndesis-system-tests/master/src/test/resources/teardown.sh',
