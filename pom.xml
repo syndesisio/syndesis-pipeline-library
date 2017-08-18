@@ -55,10 +55,6 @@
         </developer>
     </developers>
 
-    <prerequisites>
-        <maven>3.2.1</maven>
-    </prerequisites>
-
     <scm>
         <connection>scm:git:git@github.com:syndesisio/syndesis-pipeline-library.git</connection>
         <developerConnection>scm:git:git@github.com:syndesisio/syndesis-pipeline-library.git</developerConnection>
@@ -235,7 +231,7 @@
                         <version>${maven-enforcer-plugin.version}</version>
                         <executions>
                             <execution>
-                                <id>enforce-no-snapshots</id>
+                                <id>enforce</id>
                                 <goals>
                                     <goal>enforce</goal>
                                 </goals>
@@ -244,6 +240,9 @@
                                         <requireReleaseDeps>
                                             <message>No Snapshots Allowed!</message>
                                         </requireReleaseDeps>
+                                        <requireMavenVersion>
+                                            <version>3.5</version>
+                                        </requireMavenVersion>
                                     </rules>
                                     <fail>false</fail>
                                 </configuration>
