@@ -23,6 +23,10 @@ def call(Map parameters = [:], body) {
 
     def alwaysPullImage = goImage.endsWith(":latest")
 
+    envVars.add(containerEnvVar(key: 'LD_PRELOAD',value: 'libnss_wrapper.so'))
+    envVars.add(containerEnvVar(key: 'NSS_WRAPPER_PASSWD',value: '/tmp/passwd'))
+    envVars.add(containerEnvVar(key: 'NSS_WRAPPER_GROUP', value: '/etc/group'))
+
     podTemplate(
         cloud: "${cloud}",
         name: "${name}",
