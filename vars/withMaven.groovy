@@ -13,7 +13,7 @@ def call(Map parameters = [:], body) {
     def name = parameters.get('name', 'maven')
 
     def cloud = parameters.get('cloud', 'openshift')
-    def mavenImage = parameters.get('mavenImage', 'maven:3.3.9')
+    def mavenImage = parameters.get('mavenImage', 'maven:3.5.0')
     def envVars = parameters.get('envVars', [])
     def inheritFrom = parameters.get('inheritFrom', 'base')
     def namespace = parameters.get('namespace', 'syndesis-ci')
