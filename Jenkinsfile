@@ -6,7 +6,7 @@ node {
         stage 'Building'
         slave {
             withOpenshift {
-                withMaven(mavenImage: "openjdk:8", serviceAccount: "builder") {
+                withMaven(mavenImage: "openjdk:8", serviceAccount: "builder", mavenSettingsXmlSecret: 'm2-settings') {
                     inside {
                         stage('Prepare Environment') {
                             createEnvironment(
