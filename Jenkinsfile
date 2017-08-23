@@ -1,13 +1,12 @@
 node {
     checkout scm
     library identifier: "syndesis-pipeline-library@${env.BRANCH_NAME}", retriever: workspaceRetriever("${WORKSPACE}")
-    def mavenVersion='3.5.0'
     inNamespace(cloud:'openshift', prefix: 'e2e') {
 
         stage 'Building'
         slave {
             withOpenshift {
-                withMaven(mavenImage: "maven:${mavenVersion}",
+                withMaven(mavenImage: "openjdk:8",
                 serviceAccount: "builder"
             ) {
                 inside {
