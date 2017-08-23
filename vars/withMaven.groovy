@@ -31,9 +31,9 @@ def call(Map parameters = [:], body) {
     envVars.add(containerEnvVar(key: 'MAVEN_OPTS', value: "-Duser.home=${workingDir} -Dmaven.repo.local=${workingDir}/.m2/repository/"))
 
     if (isPersistent) {
-        volumes.add(persistentVolumeClaim(claimName: "${mavenRepositoryClaim}", mountPath: "/${workingDir}/.m2/repository"))
+        volumes.add(persistentVolumeClaim(claimName: "${mavenRepositoryClaim}", mountPath: "/${workingDir}/.m2"))
     } else {
-        volumes.add(emptyDirVolume(mountPath: "/${workingDir}/.m2/repository"))
+        volumes.add(emptyDirVolume(mountPath: "/${workingDir}/.m2"))
     }
 
     if (hasSettingsXml) {
