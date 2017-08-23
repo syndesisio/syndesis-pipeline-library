@@ -45,7 +45,7 @@ def call(Map parameters = [:], body) {
             containers: [containerTemplate(name: 'maven', image: "${mavenImage}", command: '/bin/sh -c', args: 'cat', ttyEnabled: true, envVars: envVars)],
             volumes: volumes) {
         if (hasSettingsXml) {
-            sh "cp -R /${workingDir}/.m2-ro/* /${workingDir}/.m2/"
+            sh "cp -vfR ${mavenSettingsXmlMountPath}/* /${workingDir}/.m2/"
         }
         body()
     }
