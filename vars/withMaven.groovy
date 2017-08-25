@@ -21,7 +21,7 @@ def call(Map parameters = [:], body) {
     def workingDir = parameters.get('workingDir', '/home/jenkins')
     def mavenRepositoryClaim = parameters.get('mavenRepositoryClaim', '')
     def mavenSettingsXmlSecret = parameters.get('mavenSettingsXmlSecret', '')
-    def mavenSettingsXmlMountPath = parameters.get('mavenSettingsXmlMountPath', "/${workingDir}/.m2-ro")
+    def mavenSettingsXmlMountPath = parameters.get('mavenSettingsXmlMountPath', "/${workingDir}/.m2")
     def idleMinutes = parameters.get('idle', 10)
 
     def isPersistent = !mavenRepositoryClaim.isEmpty()
@@ -31,9 +31,9 @@ def call(Map parameters = [:], body) {
     envVars.add(containerEnvVar(key: 'MAVEN_OPTS', value: "-Duser.home=${workingDir} -Dmaven.repo.local=${workingDir}/.m2/repository/"))
 
     if (isPersistent) {
-        volumes.add(persistentVolumeClaim(claimName: "${mavenRepositoryClaim}", mountPath: "/${workingDir}/.m2"))
+        volumes.add(persistentVolumeClaim(claimName: "${mavenRepositoryClaim}", mountPath: "/${workingDir}/.m2/repository"))
     } else {
-        volumes.add(emptyDirVolume(mountPath: "/${workingDir}/.m2"))
+        volumes.add(emptyDirVolume(mountPath: "/${workingDir}/.m2/repository"))
     }
 
     if (hasSettingsXml) {
@@ -44,9 +44,6 @@ def call(Map parameters = [:], body) {
             idleMinutesStr: "${idleMinutes}",
             containers: [containerTemplate(name: 'maven', image: "${mavenImage}", command: '/bin/sh -c', args: 'cat', ttyEnabled: true, envVars: envVars)],
             volumes: volumes) {
-        if (hasSettingsXml) {
-            sh "cp -R /${workingDir}/.m2-ro/* /${workingDir}/.m2/"
-        }
         body()
     }
 }
