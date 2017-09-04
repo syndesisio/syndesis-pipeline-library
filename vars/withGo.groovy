@@ -8,7 +8,7 @@
  */
 def call(Map parameters = [:], body) {
 
-    def defaultLabel = buildId('maven')
+    def defaultLabel = buildId('go')
     def label = parameters.get('label', defaultLabel)
     def name = parameters.get('name', 'go')
 
