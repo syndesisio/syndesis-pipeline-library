@@ -1,8 +1,10 @@
 package io.syndesis.jenkins.pipeline
 
+@Grab('com.github.zafarkhaja:java-semver:0.9.0')
 class Version implements Comparable<Version>, Serializable {
 
-  @Delegate private transient com.github.zafarkhaja.semver.Version semver
+  @Delegate
+  private transient com.github.zafarkhaja.semver.Version semver
 
   Version() {}
 
