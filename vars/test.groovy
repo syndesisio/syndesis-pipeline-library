@@ -23,7 +23,7 @@ def call(Map parameters = [:]) {
         env
         mkdir -p \${HOME}/bin
         export PATH=\${PATH}:\${HOME}/bin
-        mvn clean install -U ${mavenOptions}
+        mvn clean install -B -U ${mavenOptions}
         """
     }
 }
