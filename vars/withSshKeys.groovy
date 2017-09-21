@@ -13,7 +13,7 @@ def call(Map parameters = [:], body) {
     def label = parameters.get('label', defaultLabel)
     def name = parameters.get('name', 'ssh-keys-provider')
 
-    def cloud = parameters.get('cloud', 'nsswrapper')
+    def cloud = parameters.get('cloud', 'openshift')
     def inheritFrom = parameters.get('inheritFrom', 'base')
     def namespace = parameters.get('namespace', 'syndesis-ci')
     def home = parameters.get('home', '/home/jenkins')
