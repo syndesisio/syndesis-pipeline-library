@@ -21,19 +21,20 @@ def call(Map parameters = [:], body) {
     def workingDir = parameters.get('workingDir', '/home/jenkins')
     def mavenRepositoryClaim = parameters.get('mavenRepositoryClaim', '')
     def mavenSettingsXmlSecret = parameters.get('mavenSettingsXmlSecret', '')
-    def mavenSettingsXmlMountPath = parameters.get('mavenSettingsXmlMountPath', "/${workingDir}/.m2")
+    def mavenLocalRepositoryPath = parameters.get('mavenLocalRepositoryPath', "${workingDir}/.m2/repository/")
+    def mavenSettingsXmlMountPath = parameters.get('mavenSettingsXmlMountPath', "${workingDir}/.m2")
     def idleMinutes = parameters.get('idle', 10)
 
     def isPersistent = !mavenRepositoryClaim.isEmpty()
     def hasSettingsXml = !mavenSettingsXmlSecret.isEmpty()
 
     def volumes = []
-    envVars.add(containerEnvVar(key: 'MAVEN_OPTS', value: "-Duser.home=${workingDir} -Dmaven.repo.local=${workingDir}/.m2/repository/"))
+    envVars.add(containerEnvVar(key: 'MAVEN_OPTS', value: "-Duser.home=${workingDir} -Dmaven.repo.local=${mavenLocalRepositoryPath}"))
 
     if (isPersistent) {
-        volumes.add(persistentVolumeClaim(claimName: "${mavenRepositoryClaim}", mountPath: "/${workingDir}/.m2/repository"))
+        volumes.add(persistentVolumeClaim(claimName: "${mavenRepositoryClaim}", mountPath: "${mavenLocalRepositoryPath}"))
     } else {
-        volumes.add(emptyDirVolume(mountPath: "/${workingDir}/.m2/repository"))
+        volumes.add(emptyDirVolume(mountPath: "${mavenLocalRepositoryPath}"))
     }
 
     if (hasSettingsXml) {
