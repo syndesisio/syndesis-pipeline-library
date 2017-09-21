@@ -14,7 +14,7 @@ def call(Map parameters = [:], body) {
     def name = parameters.get('name', 'openshift')
 
     def cloud = parameters.get('cloud', 'openshift')
-    def openshiftImage = parameters.get('openshiftImage', 'openshift/origin:v1.5.0-rc.0')
+    def openshiftImage = parameters.get('openshiftImage', 'openshift/origin:v3.6.0')
     def envVars = parameters.get('envVars', [])
     def inheritFrom = parameters.get('inheritFrom', 'base')
     def namespace = parameters.get('namespace', 'syndesis-ci')

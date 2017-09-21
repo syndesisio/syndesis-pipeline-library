@@ -1,6 +1,4 @@
 #!/usr/bin/groovy
-import io.fabric8.openshift.client.DefaultOpenShiftClient
-import io.fabric8.openshift.client.OpenShiftClient
 
 /**
  * Deploys the latest version of the deploymentconfig
