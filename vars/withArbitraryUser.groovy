@@ -9,11 +9,11 @@
 def call(Map parameters = [:], body) {
 
 
-    def defaultLabel = buildId('nsswrapper')
+    def defaultLabel = buildId('nsswrapper-provider')
     def label = parameters.get('label', defaultLabel)
-    def name = parameters.get('name', 'nsswrapper')
+    def name = parameters.get('name', 'nsswrapper-provider')
 
-    def cloud = parameters.get('cloud', 'nsswrapper')
+    def cloud = parameters.get('cloud', 'openshift')
     def image = parameters.get('image', 'syndesis/nsswrapper')
     def inheritFrom = parameters.get('inheritFrom', 'base')
     def namespace = parameters.get('namespace', 'syndesis-ci')
@@ -23,7 +23,7 @@ def call(Map parameters = [:], body) {
     def home = parameters.get('home', '/home/jenkins')
     def nssDir = parameters.get('nssDir', '/home/jenkins')
 
-    podTemplate(cloud: 'openshift', name: 'initilizer',
+    podTemplate(cloud: "${cloud}", name: "${name}",
                 envVars: [podEnvVar(key: 'LD_PRELOAD', value: "${nssDir}/libnss_wrapper.so"),
                           podEnvVar(key: 'NSS_DIR', value: "${nssDir}"),
                           podEnvVar(key: 'NSS_WRAPPER_PASSWD', value: "${nssDir}/build.passwd"),
@@ -32,7 +32,7 @@ def call(Map parameters = [:], body) {
                           podEnvVar(key: 'NSS_USER_DESCRIPTION', value: "${description}"),
                           podEnvVar(key: 'NSS_USER_HOME', value: "${home}"),
         ],
-                initContainers: [containerTemplate(name: 'initializer',
+                initContainers: [containerTemplate(name: "${name}",
                                                    image: 'syndesis/nsswrapper',
                                                    command: '/usr/local/bin/init.sh')]) {
         body()

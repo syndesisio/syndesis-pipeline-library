@@ -19,7 +19,7 @@ def call(Map parameters = [:], body) {
     def home = parameters.get('home', '/home/jenkins')
     def sshKeysSecret = parameters.get('sshKeysSecret', 'ssh-keys')
 
-    podTemplate(cloud: 'openshift', name: "${name}", namespace: "${namespace}",
+    podTemplate(cloud: "${cloud}", name: "${name}", namespace: "${namespace}",
                 volumes: [secretVolume(secretName: "${sshKeysSecret}", mountPath: "/usr/local/share/ssh-keys")],
                 initContainers: [containerTemplate(name: "${name}",
                                                    image: 'busybox',
