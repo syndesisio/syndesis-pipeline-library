@@ -34,7 +34,7 @@ def call(Map parameters = [:], body) {
         ],
                 initContainers: [containerTemplate(name: 'initializer',
                                                    image: 'syndesis/nsswrapper',
-                                                   command: 'cp /usr/lib64/libnss_wrapper.so /home/jenkins/libnss_wrapper.so')]) {
+                                                   command: '/usr/local/bin/init.sh')]) {
         body()
     }
 }
