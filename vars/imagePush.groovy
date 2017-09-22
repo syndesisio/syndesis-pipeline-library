@@ -46,7 +46,10 @@ def call(Map parameters = [:]) {
 "        name: ${sourceImageName}\n" +
 "    type: Docker\n"
 
-
-    openshiftCreateResource(jsonyaml: "${yaml}")
+    try {
+        openshiftCreateResource(jsonyaml: "${yaml}")
+    } catch (Exception ex) {
+        //If the build config already exists, we can ignore, if not the next step will fail.
+    }
     openshiftBuild(bldCfg: "${name}")
 }
