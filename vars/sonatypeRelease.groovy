@@ -36,4 +36,6 @@ def call(Map parameters = [:]) {
 
     sh "git push origin ${branch}"
     sh "git push origin --tags"
+
+    return getLatestMavenReleaseVersion()
 }
