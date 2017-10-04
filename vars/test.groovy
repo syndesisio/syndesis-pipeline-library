@@ -15,9 +15,9 @@ def call(Map parameters = [:]) {
 
     container(name: 'maven') {
         git 'https://github.com/syndesisio/syndesis-system-tests.git'
-        def mavenOption = "-Denv.init.enabled=${envInitEnabled} -Denv.destroy.enabled=${envDestroyEnabled}"
+        def mavenOptions = "-Denv.init.enabled=${envInitEnabled} -Denv.destroy.enabled=${envDestroyEnabled}"
         if (!namespace.isEmpty()) {
-           mavenOption += " -Dnamespace.use.existing=${namespace}"
+           mavenOptions += " -Dnamespace.use.existing=${namespace}"
         }
         //TODO: Fix usingLocalBinaries as withEnv isn't currently supported. Then use it instead of this:
         sh """
