@@ -12,6 +12,7 @@ def call(Map parameters = [:]) {
     def dockerServerId = parameters.get('dockerServerId', 'dockerhub')
     def dockerRegistry = parameters.get('dockerRegisty', 'docker.io')
     def profile = parameters.get('profile', 'fabric8')
+    def mavenOpts = parameters.get('mavenOpts', '')
     def branch = parameters.get('branch', 'master')
 
     def pom = readMavenPom file: 'pom.xml'
@@ -21,7 +22,7 @@ def call(Map parameters = [:]) {
     sh "git checkout ${branch}"
 
     //Perform traditional release and deploy to sonatype
-    sh "mvn -B release:clean release:prepare release:perform -P${profile}"
+    sh "mvn -B release:clean release:prepare release:perform -P${profile} ${mavenOpts}"
 
     //List all repositories and grab the output.
     def stagingRepositoryPrefix = groupId.replaceAll("\\.","")

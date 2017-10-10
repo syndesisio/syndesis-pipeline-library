@@ -7,7 +7,7 @@
  */
 def call(imagestream = '') {
      try {
-      return  sh(returnStdout: true, script: "oc get is ${imagestream} | awk -F ' ' '{print $2}' | awk -F '/' '{print $1}' | grep -vi docker | head -n 1").trim()
+      return  sh(returnStdout: true, script: "oc get is " + imagestream + " | awk -F ' ' '{print \$2}' | awk -F '/' '{print \$1}' | grep -vi docker | head -n 1").trim()
      } catch (Throwable t) {
       return ''
      }
