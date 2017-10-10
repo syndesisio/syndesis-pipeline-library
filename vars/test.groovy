@@ -15,7 +15,7 @@ def call(Map parameters = [:]) {
 
     container(name: 'maven') {
         git 'https://github.com/syndesisio/syndesis-system-tests.git'
-        def mavenOptions = "-Denv.init.enabled=${envInitEnabled} -Denv.destroy.enabled=${envDestroyEnabled}"
+        def mavenOptions = "-Denv.init.enabled=${envInitEnabled} -Dnamespace.destroy.enabled=${envDestroyEnabled}"
         if (!namespace.isEmpty()) {
            mavenOptions += " -Dnamespace.use.existing=${namespace}"
         }
