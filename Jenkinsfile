@@ -12,7 +12,7 @@ node {
       withOpenshift {
         withMaven(
           mavenImage: "maven:${mavenVersion}",
-          serviceAccount: "builder"
+          serviceAccount: "jenkins"
         ) {
           inside {
             stage('Prepare Environment') {
