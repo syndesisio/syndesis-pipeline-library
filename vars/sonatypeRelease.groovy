@@ -19,6 +19,20 @@ def call(Map parameters = [:]) {
     def groupId = pom.groupId
     def version = pom.version
 
+    def releaseVersion = parameters.get('releaseVersion', '')
+    def developmentVersion = parameters.get('developmentVersion', '')
+
+    def mavenOptions = ''
+
+    if (!releaseVersion.isEmpty()) {
+      mavenOptions += " -DreleaseVersion=${releaseVersion}"
+    }
+
+    if (!developmentVersion.isEmpty()) {
+      mavenOptions += " -DdevelopmentVersion=${developmentVersion}"
+    }
+
+
     sh "git checkout ${branch}"
 
     //Perform traditional release and deploy to sonatype
