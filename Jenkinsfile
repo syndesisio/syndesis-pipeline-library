@@ -31,6 +31,7 @@ node {
               test(
                 component: 'syndesis-pipeline-library',
                 envInitEnabled: false,
+                namespaceDestroyEnabled: false, //We don't want to delete the namespace here. It will get wiped by the inNamespace block.
                 namespace: "${KUBERNETES_NAMESPACE}",
                 serviceAccount: 'jenkins'
               )
