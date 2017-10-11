@@ -13,7 +13,7 @@ def call(Map parameters = [:], body) {
     def name = parameters.get('name', 'maven')
 
     def cloud = parameters.get('cloud', 'openshift')
-    def mavenImage = parameters.get('mavenImage', 'maven:3.5.0')
+
     def envVars = parameters.get('envVars', [])
     def inheritFrom = parameters.get('inheritFrom', 'base')
     def namespace = parameters.get('namespace', 'syndesis-ci')
@@ -27,6 +27,9 @@ def call(Map parameters = [:], body) {
 
     def isPersistent = !mavenRepositoryClaim.isEmpty()
     def hasSettingsXml = !mavenSettingsXmlSecret.isEmpty()
+
+    def internalRegistry = parameters.get('internalRegistry', findInternalRegistry())
+    def mavenImage = !internalRegistry.isEmpty() ? parameters.get('mavenImage', "${internalRegistry}/${namespace}/maven-with-repo:latest") : parameters.get('mavenImage', 'maven:3.5.0')
 
     def volumes = []
     envVars.add(containerEnvVar(key: 'MAVEN_OPTS', value: "-Duser.home=${workingDir} -Dmaven.repo.local=${mavenLocalRepositoryPath}"))
