@@ -1,6 +1,10 @@
 #!/bin/groovy
 
 def call(Map parameters = [:]) {
+    def enabled = parameters.get('enabled', 'true')
+    if ('false'.equalsIgnoreCase(enabled)) {
+       return null;
+    }
 
     def name = parameters.get('name', '')
 
