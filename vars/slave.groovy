@@ -14,6 +14,7 @@ def call(Map parameters = [:], body) {
 
     def cloud = parameters.get('cloud', 'openshift')
     def jnlpImage = parameters.get('jnlpImage', 'openshift/jenkins-slave-maven-centos7')
+    def jnlpCommand = parameters.get('jnlpCommand', '/usr/local/bin/run-jnlp-client')
     def inheritFrom = parameters.get('inheritFrom', 'base')
     def namespace = parameters.get('namespace', 'syndesis-ci')
     def serviceAccount = parameters.get('serviceAccount', '')
@@ -21,7 +22,7 @@ def call(Map parameters = [:], body) {
 
     podTemplate(cloud: "${cloud}", name: "${name}", namespace: "${namespace}", label: label, inheritFrom: "${inheritFrom}", serviceAccount: "${serviceAccount}",
             idleMinutesStr: "${idleMinutes}",
-            containers: [containerTemplate(name: 'jnlp', image: "${jnlpImage}", args: '${computer.jnlpmac} ${computer.name}')]) {
+            containers: [containerTemplate(name: 'jnlp', image: "${jnlpImage}", command: "${jnlpCommand}", args: '${computer.jnlpmac} ${computer.name}')]) {
         body()
     }
 }
