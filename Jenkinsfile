@@ -7,24 +7,28 @@ node {
   def mavenVersion = '3.5.0'
 
   inNamespace(cloud: 'openshift', prefix: 'e2e') {
+    echo "Using ${KUBERNETES_NAMESPACE}"
 
     slave {
       withOpenshift {
-        withMaven(
-          mavenImage: "maven:${mavenVersion}",
-          serviceAccount: "jenkins"
-        ) {
+        withMaven(mavenImage: "maven:${mavenVersion}", serviceAccount: "jenkins") {
           inside {
-            stage('Prepare Environment') {
-              createEnvironment(
-                cloud: 'openshift', name: "${KUBERNETES_NAMESPACE}",
-                environmentSetupScriptUrl: 'https://raw.githubusercontent.com/syndesisio/syndesis-system-tests/master/src/test/resources/setup.sh',
-                environmentTeardownScriptUrl: 'https://raw.githubusercontent.com/syndesisio/syndesis-system-tests/master/src/test/resources/teardown.sh',
-                waitForServiceList: ['syndesis-rest', 'syndesis-ui', 'syndesis-keycloak', 'syndesis-verifier'],
-                waitTimeout: 600000L,
-                namespaceDestroyEnabled: false,
-                namespaceCleanupEnabled: false
-              )
+
+            container('openshift') {
+              sh 'oc version'
+            }
+            container('maven') {
+              stage('Prepare Environment') {
+                createEnvironment(
+                  cloud: 'openshift', name: "${KUBERNETES_NAMESPACE}",
+                  environmentSetupScriptUrl: 'https://raw.githubusercontent.com/syndesisio/syndesis-system-tests/master/src/test/resources/setup.sh',
+                  environmentTeardownScriptUrl: 'https://raw.githubusercontent.com/syndesisio/syndesis-system-tests/master/src/test/resources/teardown.sh',
+                  waitForServiceList: ['syndesis-rest', 'syndesis-ui', 'syndesis-verifier'],
+                  waitTimeout: 600000L,
+                  namespaceDestroyEnabled: false,
+                  namespaceCleanupEnabled: false
+                )
+              }
             }
 
             stage('System Tests') {
