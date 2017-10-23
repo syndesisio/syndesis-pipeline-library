@@ -6,10 +6,19 @@
  * @return
  */
 def call(parameters = [:]) {
-  def imagestream = parameters.get('imagestream', '')
-  def namespace = parameters.get('namespace', '')
+  def currentNamespace = "${env.KUBERNETES_NAMESPACE}"
+
   try {
-    return  sh(returnStdout: true, script: "oc get is ${imagestream} -n ${namespace} | awk -F ' ' '{print \$2}' | awk -F '/' '{print \$1}' | grep -vi docker | head -n 1").trim()
+    currentNamespace = sh(returnStdout: true, script: "oc project -q").trim() 
+  } catch (Exception e) {
+    if (currentNamespace.isEmpty()) {
+      currentNamespace = 'syndesis-ci'
+    }
+  }
+  def imagestream = parameters.get('imagestream', '')
+  def namespace = parameters.get('namespace', currentNamespace)
+  try {
+    return sh(returnStdout: true, script: "oc get is ${imagestream} -n ${namespace} | awk -F ' ' '{print \$2}' | awk -F '/' '{print \$1}' | grep -vi docker | head -n 1").trim()
   } catch (Throwable t) {
     return ''
   }
