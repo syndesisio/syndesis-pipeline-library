@@ -4,14 +4,12 @@ node {
 
   library identifier: "syndesis-pipeline-library@${env.BRANCH_NAME}", retriever: workspaceRetriever("${WORKSPACE}")
 
-  def mavenVersion = '3.5.0'
-
   inNamespace(cloud: 'openshift', prefix: 'e2e') {
     echo "Using ${KUBERNETES_NAMESPACE}"
 
     slave {
       withOpenshift {
-        withMaven(mavenImage: "maven:${mavenVersion}", serviceAccount: "jenkins") {
+        withMaven(serviceAccount: "jenkins") {
           inside {
 
             container('openshift') {
