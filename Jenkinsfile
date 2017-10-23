@@ -9,7 +9,7 @@ node {
 
     slave {
       withOpenshift {
-        withMaven(serviceAccount: "jenkins") {
+        withMaven(serviceAccount: "jenkins", mavenSettingsXmlSecret: "m2-settings") {
           inside {
 
             container('openshift') {
