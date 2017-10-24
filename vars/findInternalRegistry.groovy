@@ -7,14 +7,10 @@
  */
 def call(parameters = [:]) {
   def currentNamespace = "${env.KUBERNETES_NAMESPACE}"
-
-  try {
-    currentNamespace = sh(returnStdout: true, script: "oc project -q").trim() 
-  } catch (Exception e) {
-    if (currentNamespace.isEmpty()) {
-      currentNamespace = 'syndesis-ci'
-    }
+  if (currentNamespace.isEmpty()) {
+    currentNamespace= 'syndesis-ci'
   }
+
   def imagestream = parameters.get('imagestream', '')
   def namespace = parameters.get('namespace', currentNamespace)
   try {
