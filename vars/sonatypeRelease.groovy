@@ -20,8 +20,6 @@ def call(Map parameters = [:]) {
     def autoReleaseAfterClose = parameters.get('autoReleaseAfterClose', 'false')
     def autoDropAfterRelease = parameters.get('autoDropAfterRelease', 'true')
 
-    def tagNameFormat = parameters.get('tagNameFormat', '@{project.version}')
-
     def dockerServerId = parameters.get('dockerServerId', 'dockerhub')
     def dockerRegistry = parameters.get('dockerRegisty', 'docker.io')
     def profiles = parameters.get('profiles', 'fabric8')
@@ -48,7 +46,7 @@ def call(Map parameters = [:]) {
     sh "git checkout ${branch}"
 
     //Perform traditional release and deploy to sonatype
-    sh "mvn -B release:clean release:prepare release:perform -DpushChanges=false -DtagNameFormat=${tagNameFormat} -P${profiles} ${mavenOptions}"
+    sh "mvn -B release:clean release:prepare release:perform -DpushChanges=false -Dtag=${releaseVersion} -P${profiles} ${mavenOptions}"
 
     //List all repositories and grab the output.
     def stagingRepositoryPrefix = groupId.replaceAll("\\.","")
