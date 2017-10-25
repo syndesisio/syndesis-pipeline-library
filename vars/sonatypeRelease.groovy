@@ -24,7 +24,7 @@ def call(Map parameters = [:]) {
 
     def dockerServerId = parameters.get('dockerServerId', 'dockerhub')
     def dockerRegistry = parameters.get('dockerRegisty', 'docker.io')
-    def profiles = parameters.get('profiles', 'fabric8')
+    def profiles = parameters.get('profiles', 'release,fabric8')
     def branch = parameters.get('branch', 'master')
 
     def pom = readMavenPom file: 'pom.xml'
