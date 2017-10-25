@@ -28,7 +28,7 @@ def call(Map parameters = [:], body) {
     def isPersistent = !mavenRepositoryClaim.isEmpty()
     def hasSettingsXml = !mavenSettingsXmlSecret.isEmpty()
 
-    def internalRegistry = parameters.get('internalRegistry', findInternalRegistry(namespace: "$namespace"))
+    def internalRegistry = parameters.get('internalRegistry', findInternalRegistry(namespace: "$namespace", imagestream: "maven-with-repo"))
     def mavenImage = !internalRegistry.isEmpty() ? parameters.get('mavenImage', "${internalRegistry}/${namespace}/maven-with-repo:latest") : parameters.get('mavenImage', 'maven:3.5.0')
 
     def volumes = []
