@@ -21,7 +21,7 @@ def call(Map parameters = [:], body) {
     def workingDir = parameters.get('workingDir', '/home/jenkins')
     def mavenRepositoryClaim = parameters.get('mavenRepositoryClaim', '')
     def mavenSettingsXmlSecret = parameters.get('mavenSettingsXmlSecret', '')
-    def mavenLocalRepositoryPath = parameters.get('mavenLocalRepositoryPath', "${workingDir}/.m2/repository/")
+    def mavenLocalRepositoryPath = parameters.get('mavenLocalRepositoryPath', "${workingDir}/mvnrepo/")
     def mavenSettingsXmlMountPath = parameters.get('mavenSettingsXmlMountPath', "${workingDir}/.m2")
     def idleMinutes = parameters.get('idle', 10)
 
